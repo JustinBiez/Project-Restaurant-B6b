@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Ingredient;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class IngredientSeeder extends Seeder
 {
@@ -13,18 +13,20 @@ class IngredientSeeder extends Seeder
     public function run(): void
     {
         $ingredients = [
-            ['naam' => 'Chicken Breast', 'created_at' => now(), 'updated_at' => now()],
-            ['naam' => 'Tomato', 'created_at' => now(), 'updated_at' => now()],
-            ['naam' => 'Onion', 'created_at' => now(), 'updated_at' => now()],
-            ['naam' => 'Garlic', 'created_at' => now(), 'updated_at' => now()],
-            ['naam' => 'Olive Oil', 'created_at' => now(), 'updated_at' => now()],
-            ['naam' => 'Basil', 'created_at' => now(), 'updated_at' => now()],
-            ['naam' => 'Mozzarella', 'created_at' => now(), 'updated_at' => now()],
-            ['naam' => 'Beef', 'created_at' => now(), 'updated_at' => now()],
-            ['naam' => 'Pasta', 'created_at' => now(), 'updated_at' => now()],
-            ['naam' => 'Salmon', 'created_at' => now(), 'updated_at' => now()],
+            ['naam' => 'Tomato', 'allergenen' => null],
+            ['naam' => 'Bread', 'allergenen' => 'gluten'],
+            ['naam' => 'Peanut Oil', 'allergenen' => 'pinda'],
+            ['naam' => 'Almond Flour', 'allergenen' => 'noten'],
+            ['naam' => 'Milk', 'allergenen' => 'melk'],
+            ['naam' => 'Egg', 'allergenen' => 'ei'],
+            ['naam' => 'Salmon', 'allergenen' => 'vis'],
+            ['naam' => 'Cheese', 'allergenen' => 'melk'],
+            ['naam' => 'Chicken', 'allergenen' => null],
+            ['naam' => 'Rice', 'allergenen' => null],
         ];
 
-        DB::table('ingredienten')->insert($ingredients);
+        foreach ($ingredients as $ingredient) {
+            Ingredient::create($ingredient);
+        }
     }
 }

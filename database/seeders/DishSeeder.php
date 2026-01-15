@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Dishes;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class DishSeeder extends Seeder
 {
@@ -14,52 +14,69 @@ class DishSeeder extends Seeder
     {
         $dishes = [
             [
-                'naam' => 'Grilled Chicken',
-                'beschrijving' => 'Delicious grilled chicken breast with herbs',
+                'naam' => 'Grilled Chicken Breast',
+                'beschrijving' => 'Juicy grilled chicken breast with herbs',
                 'prijs' => 12.99,
-                'catagorie' => 'Main Courses',
-                'ingredienten' => 1,
-                'created_at' => now(),
-                'updated_at' => now(),
+                'category_id' => 1,
+                'ingredients' => [9],
             ],
             [
-                'naam' => 'Margherita Pizza',
-                'beschrijving' => 'Classic pizza with tomato, mozzarella, and basil',
-                'prijs' => 10.99,
-                'catagorie' => 'Main Courses',
-                'ingredienten' => 2,
-                'created_at' => now(),
-                'updated_at' => now(),
+                'naam' => 'Tomato Pasta',
+                'beschrijving' => 'Fresh pasta with homemade tomato sauce',
+                'prijs' => 10.50,
+                'category_id' => 1,
+                'ingredients' => [1, 2, 8],
             ],
             [
-                'naam' => 'Garlic Pasta',
-                'beschrijving' => 'Creamy pasta with fresh garlic and olive oil',
-                'prijs' => 9.99,
-                'catagorie' => 'Main Courses',
-                'ingredienten' => 9,
-                'created_at' => now(),
-                'updated_at' => now(),
+                'naam' => 'French Fries',
+                'beschrijving' => 'Crispy golden fries',
+                'prijs' => 3.99,
+                'category_id' => 2,
+                'ingredients' => [10],
             ],
             [
-                'naam' => 'Grilled Salmon',
-                'beschrijving' => 'Fresh salmon fillet with lemon butter sauce',
-                'prijs' => 15.99,
-                'catagorie' => 'Main Courses',
-                'ingredienten' => 10,
-                'created_at' => now(),
-                'updated_at' => now(),
+                'naam' => 'Caesar Salad',
+                'beschrijving' => 'Fresh salad with parmesan and croutons',
+                'prijs' => 8.99,
+                'category_id' => 2,
+                'ingredients' => [1, 8],
             ],
             [
-                'naam' => 'Beef Steak',
-                'beschrijving' => 'Premium beef steak cooked to perfection',
-                'prijs' => 18.99,
-                'catagorie' => 'Main Courses',
-                'ingredienten' => 8,
-                'created_at' => now(),
-                'updated_at' => now(),
+                'naam' => 'Chocolate Cake',
+                'beschrijving' => 'Rich chocolate cake with frosting',
+                'prijs' => 6.99,
+                'category_id' => 3,
+                'ingredients' => [2, 4, 5, 6],
+            ],
+            [
+                'naam' => 'Strawberry Cheesecake',
+                'beschrijving' => 'Creamy cheesecake with fresh strawberries',
+                'prijs' => 7.99,
+                'category_id' => 3,
+                'ingredients' => [5, 8],
+            ],
+            [
+                'naam' => 'Iced Tea',
+                'beschrijving' => 'Refreshing iced tea',
+                'prijs' => 2.50,
+                'category_id' => 4,
+                'ingredients' => [],
+            ],
+            [
+                'naam' => 'Orange Juice',
+                'beschrijving' => 'Freshly squeezed orange juice',
+                'prijs' => 3.50,
+                'category_id' => 4,
+                'ingredients' => [],
             ],
         ];
 
-        DB::table('gerechten')->insert($dishes);
+        foreach ($dishes as $dishData) {
+            $ingredients = $dishData['ingredients'];
+            unset($dishData['ingredients']);
+            
+            $dish = Dishes::create($dishData);
+            $dish->ingredients()->attach($ingredients);
+        }
     }
 }

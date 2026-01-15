@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Order;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class OrderSeeder extends Seeder
 {
@@ -12,49 +12,22 @@ class OrderSeeder extends Seeder
      */
     public function run(): void
     {
-        $orders = [
-            [
-                'status' => 'Completed',
-                'order_datum' => now()->subDays(5)->toDateString(),
-                'user_id' => 1,
-                'dish_id' => 1,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'status' => 'Completed',
-                'order_datum' => now()->subDays(3)->toDateString(),
-                'user_id' => 2,
-                'dish_id' => 2,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'status' => 'Pending',
-                'order_datum' => now()->toDateString(),
-                'user_id' => 1,
-                'dish_id' => 3,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'status' => 'In Progress',
-                'order_datum' => now()->toDateString(),
-                'user_id' => 2,
-                'dish_id' => 4,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'status' => 'Completed',
-                'order_datum' => now()->subDays(1)->toDateString(),
-                'user_id' => 3,
-                'dish_id' => 5,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-        ];
+        for ($i = 0; $i < 10; $i++) {
+            $order = Order::create([
+                'user_id' => fake()->numberBetween(1, 5),
+                'datum' => fake()->dateTimeBetween('-1 month', 'now'),
+                'status' => fake()->randomElement(['pending', 'completed', 'cancelled']),
+            ]);
 
-        DB::table('orders')->insert($orders);
+            // Add order items
+            $dishCount = fake()->numberBetween(1, 3);
+            for ($j = 0; $j < $dishCount; $j++) {
+                $order->items()->create([
+                    'dish_id' => fake()->numberBetween(1, 8),
+                    'aantal' => fake()->numberBetween(1, 3),
+                    'opmerkingen' => fake()->optional()->sentence(),
+                ]);
+            }
+        }
     }
 }
